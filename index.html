@@ -1,408 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>English Pronunciation Practice</title>
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
-    text-align: center;
-    padding: 30px;
-}
-.card {
-    background: white;
-    max-width: 450px;
-    margin: auto;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-input {
-    width: 90%;
-    padding: 10px;
-    margin: 8px 0;
-    font-size: 16px;
-}
-.word { font-size: 28px; font-weight: bold; margin: 15px 0; }
-.correct { color: green; }
-.mispronounced { color: red; }
-button {
-    padding: 12px 20px;
-    margin: 8px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-.level-btn { background: #ff9800; color: white; width: 80%; }
-.locked { background: #aaa; cursor: not-allowed; }
-.hidden { display: none; }
-.score { font-size: 20px; margin-top: 10px; }
-.logout { background: #dc3545; color: white; }
-.home-btn { background: #6c757d; color: white; }
-.play-again { background: #28a745; color: white; }
-.update-btn { background:#007bff; color:white; width:80%; }
+  const username = e.parameter.username;
+  const password = e.parameter.password || "";
+  const score = Number(e.parameter.score);
+  const level = Number(e.parameter.level);
 
-/* Congratulatory Pop-up Styles */
-#congratsPopup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, #ffcc00, #ff66ff, #33ccff);
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-    display: none;
-    z-index: 9999;
-    animation: popupAnim 0.7s ease-in-out;
-}
-@keyframes popupAnim {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-}
-</style>
-</head>
+  if (!username) {
+    return output("Missing username");
+  }
 
-<body>
+  const dataRange = sheet.getDataRange();
+  const data = dataRange.getValues();
+  let rowFound = -1;
 
-<!-- LOGIN -->
-<div class="card" id="loginPage">
-    <h2>🔐 Login</h2>
-    <input id="loginUsername" placeholder="Username">
-    <input id="loginPassword" type="password" placeholder="Password">
-    <button onclick="handleLogin()">Login</button>
-    <p>No account?
-        <button onclick="showSignup()">Sign Up</button>
-    </p>
-</div>
-
-<!-- SIGN UP -->
-<div class="card hidden" id="signupPage">
-    <h2>📝 Sign Up</h2>
-    <input id="signupUsername" placeholder="Username">
-    <input id="signupPassword" type="password" placeholder="Password">
-    <button onclick="handleSignup()">Create Account</button>
-    <p><button onclick="showLogin()">Back to Login</button></p>
-</div>
-
-<!-- HOME -->
-<div class="card hidden" id="homePage">
-    <h2>Welcome, <span id="userDisplay"></span></h2>
-    <button class="level-btn" onclick="startLevel(1)">Level 1 </button>
-    <button class="level-btn locked" id="lvl2">Level 2 </button>
-    <button class="level-btn locked" id="lvl3">Level 3 </button>
-    <button class="level-btn locked" id="lvl4">Level 4 </button>
- <button class="update-btn" onclick="sendScoreToGoogleSheet()">⬆️ Update Score</button>
-
-    <button class="play-again hidden" id="playAgain" onclick="restartGame()">Play Another Game</button>
-    <div class="score">Total Score: <span id="totalScore">0</span></div>
-    <button class="logout" onclick="logout()">Logout</button>
-</div>
-
-<!-- GAME -->
-<div class="card hidden" id="gamePage">
-    <h3 id="levelTitle"></h3>
-
-    <!-- VOICE SETTINGS -->
-    <select id="voiceGender">
-        <option value="female">Female Voice</option>
-        <option value="male">Male Voice</option>
-    </select>
-
-
-
-    <p>Speech speed: <span id="speedValue">1.0</span></p>
-    <input type="range" id="voiceRate" min="0.5" max="2.0" step="0.1" value="1.0" oninput="updateSpeed(this.value)">
-
-
-    <div class="word" id="currentWord"></div>
-    <button onclick="playPronunciation()">🔊 Listen</button>
-    <button onclick="startRecording()">🎤 Speak</button>
-    <br>
-    <button onclick="prevWord()">⬅</button>
-    <button onclick="nextWord()">➡</button>
-    <button class="home-btn" onclick="backToHome()">🏠 Back to Home</button>
-    <div class="score">Level Score: <span id="levelScore">0</span></div>
-</div>
-
-<!-- Congratulatory Popup -->
-<div id="congratsPopup">🎉 Congratulations! 🎉 </div>
-
-<!-- Audio for congrats -->
-<audio id="congratsSound" src="congrats.mp3"></audio>
-
-<script>
-/* 🔴 PUT YOUR GOOGLE APPS SCRIPT WEB APP URL HERE */
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzgGqrndyL1-NyCmXtQVcum117LFPrGruNXYtEb_sgC_piuBvni3SKVD20824V8bmATdw/exec";
-
-
-const levels = {
-    1:["cold water","same fire","land forest","air bumper","wild animals"],
-    2:["beauty is temporary","orange and strawberry","apple breaks illness","call about lemon","more melon taste"],
-    3:["beautiful","wonderful","difficult","challenges","obstacles"],
-    4:["beautifuls","pretty","ugly","no challenges","no obstacles"]
-};
-
-let currentUser = null;
-let totalScore = 0;
-let unlockedLevel = 1;
-let level = 1, index = 0, levelScore = 0;
-let words = [];
-let scored = new Set();
-let wordColors = {}; // permanent green words
-
-let voices=[];
-    let speechRate = 1.0;
-
-speechSynthesis.onvoiceschanged=()=>{
-  voices=speechSynthesis.getVoices();
-};
-
-    function updateSpeed(value) {
-        speechRate = parseFloat(value);
-        document.getElementById("speedValue").textContent = value;
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === username) {
+      rowFound = i + 1;
+      break;
     }
+  }
 
-/* ---------- PRONUNCIATION ---------- */
-function playPronunciation(){
-  const text=words[index];
-  const gender=document.getElementById("voiceGender").value;
-  const rate=parseFloat(document.getElementById("voiceRate").value);
+  /* ===============================
+     ✅ LOGIN MODE (MULTI-DEVICE)
+     =============================== */
+  if (
+    rowFound !== -1 &&
+    password &&
+    !e.parameter.hasOwnProperty("score") &&
+    !e.parameter.hasOwnProperty("level")
+  ) {
+    const storedPassword = sheet.getRange(rowFound, 2).getValue();
 
-  let voice=voices.find(v =>
-    gender==="female"
-      ? /female|woman|zira|susan/i.test(v.name)
-      : /male|man|david|mark/i.test(v.name)
-  ) || voices[0];
-
-  const utter=new SpeechSynthesisUtterance(text);
-  utter.voice=voice;
-  utter.rate=rate;
-  utter.lang="en-US";
-
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utter);
-}
-
-
-
-/* ---------- SIGN UP ---------- */
-function handleSignup() {
-    const u = document.getElementById("signupUsername").value.trim();
-    const p = document.getElementById("signupPassword").value.trim();
-    if(!u || !p) return alert("Please fill all fields");
-    if(localStorage.getItem("user_" + u)) return alert("User already exists");
-
-    // Initialize new account
-    localStorage.setItem("user_" + u, JSON.stringify({
-        password: p,
-        totalScore: 0,
-        unlockedLevel: 1,
-        wordColors: {}
-    }));
-
-  /* ✅ SEND DATA TO GOOGLE SHEET */
- const fd=new FormData();
-  fd.append("username",u);
-  fd.append("password",p);
-  fd.append("score",0);
-  fd.append("level",level);
-
-  fetch(GOOGLE_SHEET_URL,{method:"POST",body:fd});
-  alert("Account created!");
-  showLogin();
-}
-
-
-/* ---------- LOGIN ---------- */
-function handleLogin() {
-    const u = document.getElementById("loginUsername").value.trim();
-    const p = document.getElementById("loginPassword").value.trim();
-    const data = JSON.parse(localStorage.getItem("user_" + u));
-    if(!data || data.password !== p) return alert("Invalid username or password");
-
-    currentUser = u;
-    totalScore = data.totalScore;
-    unlockedLevel = data.unlockedLevel;
-    wordColors = data.wordColors || {};
-
-    document.getElementById("loginPage").classList.add("hidden");
-    document.getElementById("homePage").classList.remove("hidden");
-    document.getElementById("userDisplay").textContent = u;
-    document.getElementById("totalScore").textContent = totalScore;
-
-    // Unlock buttons according to saved progress
-    updateLevelButtons();
-}
-
-/* SEND SCORE + LEVEL */
-function sendScoreToGoogleSheet(){
-  if(!currentUser) return;
-
-  const fd=new FormData();
-  fd.append("username",currentUser);
-  fd.append("score",totalScore);
-  fd.append("level",level);
-
-  fetch(GOOGLE_SHEET_URL,{method:"POST",body:fd})
-    /*.then(()=>alert("Score & Level updated ✅"));*/
-}
-
-
-/* ---------- LOGOUT ---------- */
-function logout(){
-    currentUser = null;
-    document.getElementById("homePage").classList.add("hidden");
-    document.getElementById("loginPage").classList.remove("hidden");
-}
-
-/* ---------- UI ---------- */
-function showSignup(){document.getElementById("loginPage").classList.add("hidden"); document.getElementById("signupPage").classList.remove("hidden");}
-function showLogin(){document.getElementById("signupPage").classList.add("hidden"); document.getElementById("loginPage").classList.remove("hidden");}
-
-/* ---------- HOME ---------- */
-function unlock(id, lv){
-    const btn = document.getElementById(id);
-    btn.classList.remove("locked");
-    btn.onclick = ()=>startLevel(lv);
-}
-function updateLevelButtons(){
-    if(totalScore >= 5) unlock("lvl2", 2); else document.getElementById("lvl2").classList.add("locked");
-    if(totalScore >= 10) unlock("lvl3", 3); else document.getElementById("lvl3").classList.add("locked");
-    if(totalScore >= 15) unlock("lvl4", 4); else document.getElementById("lvl4").classList.add("locked");
-    document.getElementById("playAgain").classList.toggle("hidden", totalScore < 20);
-}
-
-/* ---------- GAME ---------- */
-function startLevel(lv){
-    level = lv;
-    words = levels[lv];
-    index = 0;
-    levelScore = 0;
-    words.forEach(w=>{if(wordColors[w]==="green") levelScore++;});
-    document.getElementById("homePage").classList.add("hidden");
-    document.getElementById("gamePage").classList.remove("hidden");
-    document.getElementById("levelTitle").textContent = "Level " + lv;
-    updateWord();
-    updateLevelScore();
-}
-
-function updateWord(){
-    const wordEl = document.getElementById("currentWord");
-    const current = words[index];
-    wordEl.textContent = current;
-    wordEl.classList.remove("correct","mispronounced");
-    if(wordColors[current]==="green") wordEl.classList.add("correct");
-}
-
-function nextWord(){if(index<words.length-1) index++; updateWord();}
-function prevWord(){if(index>0) index--; updateWord();}
-//function playPronunciation(){speechSynthesis.speak(new SpeechSynthesisUtterance(words[index]));}
-
-function startRecording(){
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const r = new SR();
-    r.lang="en-US"; r.start();
-    r.onresult = e => check(e.results[0][0].transcript.toLowerCase());
-}
-
-function check(spoken){
-    const wordEl = document.getElementById("currentWord");
-    const currentWordText = words[index];
-
-    if(spoken.includes(currentWordText)){
-        if(!scored.has(currentWordText)){
-            scored.add(currentWordText);
-            wordColors[currentWordText] = "green";
-            totalScore++;
-            levelScore++;
-	sendScoreToGoogleSheet(); //update score in google sheet if correct
-
-            // Check for congratulatory thresholds
-            if([5,10,15,20].includes(totalScore)){
-                showCongrats();
-            }
-        }
-        wordEl.classList.remove("mispronounced");
-        wordEl.classList.add("correct");
+    if (storedPassword === password) {
+      return output(
+        "Login successful|" +
+        sheet.getRange(rowFound, 3).getValue() + "|" + // Total Score
+        sheet.getRange(rowFound, 4).getValue()         // Current Level
+      );
     } else {
-        wordEl.classList.add("mispronounced");
-        setTimeout(()=>{wordEl.classList.remove("mispronounced"); if(wordColors[currentWordText]==="green") wordEl.classList.add("correct");},800);
+      return output("Invalid password");
+    }
+  }
+
+  /* =====================================================
+     ✅ ADDED: UNIVERSAL UPDATE MODE (FOR ALL USERS)
+     ===================================================== */
+  if (
+    rowFound !== -1 &&
+    e.parameter.hasOwnProperty("score") &&
+    e.parameter.hasOwnProperty("level") &&
+    !isNaN(score) &&
+    !isNaN(level)
+  ) {
+    sheet.getRange(rowFound, 3).setValue(score); // Total Score
+    sheet.getRange(rowFound, 4).setValue(level); // Current Level
+    sheet.getRange(rowFound, 5).setValue(new Date());
+    return output("Score and level updated (universal)");
+  }
+
+  /* ===============================
+     SIGN UP MODE
+     =============================== */
+  if (password && score === 0) {
+    if (rowFound !== -1) {
+      return output("User already exists");
     }
 
-    document.getElementById("levelScore").textContent = levelScore;
-    document.getElementById("totalScore").textContent = totalScore;
+    sheet.appendRow([
+      username,
+      password,
+      0,          // Total Score
+      0,          // Current Level
+      new Date()
+    ]);
 
-    saveUser();
-    updateLevelButtons();
-
-    // Go back to home page after reaching threshold
-    if((level===1 && totalScore>=5) || (level===2 && totalScore>=10) || (level===3 && totalScore>=15) || (level===4 && totalScore>=20)){
-        backToHome();
+    // 🔤 SORT ALL USERS ALPHABETICALLY (BY USERNAME)
+    const lastRow = sheet.getLastRow();
+    if (lastRow > 2) {
+      sheet
+        .getRange(2, 1, lastRow - 1, sheet.getLastColumn())
+        .sort({ column: 1, ascending: true });
     }
+
+    return output("Signup successful");
+  }
+
+  /* ===============================
+     UPDATE SCORE + LEVEL MODE
+     (original – left untouched)
+     =============================== */
+  if (rowFound !== -1 && !isNaN(score) && !isNaN(level)) {
+    sheet.getRange(rowFound, 3).setValue(score); // Total Score
+    sheet.getRange(rowFound, 4).setValue(level); // Current Level
+    sheet.getRange(rowFound, 5).setValue(new Date());
+    return output("Score and level updated");
+  }
+
+  return output("Invalid request");
 }
 
-/* ---------- SHOW CONGRATULATORY POPUP ---------- */
-function showCongrats(){
-    const popup = document.getElementById("congratsPopup");
-    const audio = document.getElementById("congratsSound");
-    popup.style.display = "block";
-    audio.play();
-    setTimeout(()=>{popup.style.display = "none";}, 5000);
+function doGet() {
+  return output("Game Score API is running");
 }
 
-/* ---------- SAVE USER ---------- */
-function saveUser(){
-    const prev = JSON.parse(localStorage.getItem("user_"+currentUser)).password;
-    localStorage.setItem("user_"+currentUser, JSON.stringify({
-        password: prev,
-        totalScore,
-        unlockedLevel,
-        wordColors
-    }));
+function output(message) {
+  return ContentService
+    .createTextOutput(message)
+    .setMimeType(ContentService.MimeType.TEXT);
 }
-
-/* ---------- BACK TO HOME ---------- */
-function backToHome(){
-    document.getElementById("gamePage").classList.add("hidden");
-    document.getElementById("homePage").classList.remove("hidden");
-}
-
-/* ---------- UPDATE LEVEL SCORE ---------- */
-function updateLevelScore(){
-    document.getElementById("levelScore").textContent = levelScore;
-    document.getElementById("totalScore").textContent = totalScore;
-}
-
-function totalScoreSpan(){
-  document.getElementById("totalScore").textContent=totalScore;
-}
-
-
-/* ---------- PLAY ANOTHER GAME ---------- */
-function restartGame(){
-    scored.clear();
-    wordColors = {};
-    totalScore = 0;
-    levelScore = 0;
-    unlockedLevel = 1;
-
-    document.getElementById("playAgain").classList.add("hidden");
-    document.getElementById("lvl2").classList.add("locked");
-    document.getElementById("lvl3").classList.add("locked");
-
-    document.getElementById("homePage").classList.remove("hidden");
-    document.getElementById("gamePage").classList.add("hidden");
-    updateLevelScore();
-}
-</script>
-
-</body>
-</html>
