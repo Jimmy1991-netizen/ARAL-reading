@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forming Sentence Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #4a63f2;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 { color: #333; }
+
+#gameBox {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+.word {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 5px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.word.selected {
+    background: #4a90e2;
+    color: white;
+}
+
+#answerBox {
+    min-height: 50px;
+    margin: 15px 0;
+    padding: 10px;
+    border: 2px dashed #ccc;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    background: #4a90e2;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover { background: #357ab8; }
+
+#status, #authStatus {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Overlay for popup box*/
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Popup box */
+#popup {
+    width: 250px;
+    height: 250px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Image for popup box*/
+#popup img {
+    max-width: 90%;
+    max-height: 90%;
+}
+/*LOGIN SIGNUP OPEN*/
+.card {
+    background: white;
+    max-width: 450px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color:black;
+}
+.secondary{background:#2196F3;color:white;}
+/*LOGIN SIGNUP CLOSE*/
+
+
+/* Overlay POPUP LOADING OPEN*/
+.popup1-overlay1{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+}
+
+/* Popup box */
+.popup1{
+    background:white;
+    width:70%;
+    height:70%;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    animation:scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn{
+    from{transform:scale(0.8); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+
+/* Image */
+.popup1 img{
+    width:120px;
+    margin-bottom:15px;
+}
+
+/* Progress Bar */
+.progress-container{
+    width:100%;
+    height:18px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+    margin:15px 0 8px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:orange;
+}
+
+/* Percentage Text */
+.percent-text{
+    font-weight:bold;
+    color:black;
+    font-size:15px;
+}
+
+.popup1 p{
+    font-size:16px;
+    color:#333;
+    margin-top:10px;
+}
+
+/* CI PROJECT */
+.text6{
+    font-size:34px;
+    font-weight:bold;
+    background:linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* SCHOOL YEAR */
+.text4{
+    font-size:34px;
+    color:blue;
+    text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff;
+    background:white;
+    display:inline-block;
+    padding:10px;
+}
+
+/* Level text */
+.textlevel{
+    font-size:25px;
+    background:linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.select {
+    width: 50%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+/* Overlay POPUP LOADING CLOSE*/
+
+
+
+
+
+</style>
+</head>
+
+<body>
+
+<center>
+<!-- POPUP LOADING open-->
+<div class="popup1-overlay1" id="popup1">
+    <div class="popup1">
+        <img src="tools/deped.png" alt="Loading Image">
+
+<h2>Loboc National High School</h2>
+
+    <div class="text6">CI PROJECT</div>
+    <div class="text4">SY 2025 - 2026</div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="percent-text" id="percentText">0%</div>
+
+        <p>Loading, please wait...</p>
+    </div>
+</div>
+<!-- POPUP LOADING close-->
+</center>
+
+
+
+
+
+<audio id="music1" src="congrats.mp3"></audio>
+
+<!-- POPUP BOX OPEN -->
+<div id="overlay">
+    <div id="popup">
+        <img src="giphy.gif" alt="Popup Image">
+    </div>
+</div>
+<!-- POPUP BOX CLOSE -->
+
+
+
+<!-- LOGIN OPEN-->
+<div class="card" id="authBox">
+    <h2>🔐 Login</h2>
+    <input id="username2" placeholder="Username">
+    <input id="password2" type="password" placeholder="Password">
+    <button style="background:deepskyblue;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="login()">Login</button>
+    <p>No account?
+        <button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showSignup()">Sign Up</button>
+    </p>
+<br>
+<a href="index.html" ><button style="background:lightgray;">Back to Menu</button></a>
+</div>
+<!-- LOGIN CLOSE-->
+
+
+<!-- SIGN UP OPEN-->
+<div class="card" id="signupPage" style="background:white;display:none;">
+    <h2>📝 Sign Up</h2>
+    <input id="username1" placeholder="Username">
+    <input id="password1" type="password" placeholder="Password">
+    <button class="secondary" style="box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="signUp()">Create Account</button>
+    <p><button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showLogin()">Back to Login</button></p>
+</div>
+<!-- SIGN UP CLOSE-->
+
+
+
+<!-- GAME BOX -->
+<div id="gameBox" style="display:none;">
+    <p>Welcome, <strong id="currentUser"></strong></p>
+    <p><strong>Level:</strong> <span id="level">1</span></p>
+    <p><strong>Score:</strong> <span id="score">0</span></p>
+
+    <button onclick="showWords()">Show Words</button>
+
+    <div id="wordsBox"></div>
+
+    <h3>Your Sentence</h3>
+    <div id="answerBox"></div>
+
+    <p id="status"></p>
+
+    <button onclick="checkAnswer()">Check Answer</button>
+    <button onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+let level = 1;
+let score = 0;
+let currentSentence = "";
+let usedSentences = [];
+let alreadyScored = false;
+let loggedInUser = null;
+
+const sentences = {
+    1: [
+        "I love learning math",
+        "The sun rises early",
+        "She reads every day",
+        "We play after school",
+        "Birds fly in sky"
+    ],
+    2: [
+        "Technology changes our lives",
+        "Education builds a strong future",
+        "Practice makes learning effective",
+        "Teachers inspire young minds",
+        "Knowledge leads to success"
+    ],
+    3: [
+        "Teknolohiya ay mahalaga",
+        "Edukasyon natin ito",
+        "May bukas pa",
+        "Mahal ko kayo",
+        "Sana maulit muli"
+    ]
+
+};
+
+/* ---------- AUTH SYSTEM ---------- */
+
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || {};
+}
+
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+function signUp() {
+const u = username1.value.trim();
+    const p = password1.value;
+
+    if (!u || !p) return alert("Fill in all fields");
+
+    let users = getUsers();
+    if (users[u]) return alert("Username already exists");
+
+    users[u] = { password: p, score: 0, level: 1 };
+    saveUsers(users);
+    alert("✅ Account created. You can log in.");
+}
+
+function login() {
+    const u = username2.value.trim();
+    const p = password2.value;
+    let users = getUsers();
+
+    if (!users[u] || users[u].password !== p) return alert("Invalid username or password");
+
+    loggedInUser = u;
+    score = users[u].score;
+    level = users[u].level;
+
+    document.getElementById("currentUser").textContent = u;
+    document.getElementById("score").textContent = score;
+    document.getElementById("level").textContent = level;
+
+    authBox.style.display = "none";
+    gameBox.style.display = "block";
+}
+
+function logout() {
+    saveProgress();
+    loggedInUser = null;
+    gameBox.style.display = "none";
+    authBox.style.display = "block";
+    signupPage.style.display = "none";
+}
+
+/* ---------- GAME LOGIC ---------- */
+
+function saveProgress() {
+    if (!loggedInUser) return;
+    let users = getUsers();
+    users[loggedInUser].score = score;
+    users[loggedInUser].level = level;
+    saveUsers(users);
+}
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+function showWords() {
+    document.getElementById("status").textContent = "";
+    answerBox.innerHTML = "";
+    wordsBox.innerHTML = "";
+    alreadyScored = false;
+
+    let available = sentences[level].filter(s => !usedSentences.includes(s));
+    if (available.length === 0) {
+        usedSentences = [];
+        available = sentences[level];
+    }
+
+    currentSentence = available[Math.floor(Math.random() * available.length)];
+    usedSentences.push(currentSentence);
+
+    shuffle(currentSentence.split(" ")).forEach(word => {
+        let span = document.createElement("span");
+        span.className = "word";
+        span.textContent = word;
+        span.onclick = () => selectWord(span);
+        wordsBox.appendChild(span);
+    });
+}
+
+function selectWord(el) {
+    if (el.classList.contains("selected")) return;
+    el.classList.add("selected");
+
+    let w = document.createElement("span");
+    w.className = "word selected";
+    w.textContent = el.textContent;
+    answerBox.appendChild(w);
+}
+
+function checkAnswer() {
+    let formed = [...answerBox.children].map(w => w.textContent).join(" ");
+
+    if (formed === currentSentence) {
+        if (!alreadyScored) {
+            score++;
+            alreadyScored = true;
+            scoreSpan = document.getElementById("score");
+            scoreSpan.textContent = score;
+            saveProgress();
+        }
+
+        document.getElementById("status").textContent = "✅ Correct!";
+
+        if (score === 2 && level === 1) {
+            level = 2;
+            usedSentences = [];
+            document.getElementById("level").textContent = level;
+            saveProgress();
+            document.getElementById("status").textContent = "🎉 Level 2 Unlocked!";
+		    const audio = document.getElementById("music1");
+    		    audio.play();
+	    showPopup();
+        }
+
+        if (score === 4 && level === 2) {
+            level = 3;
+            usedSentences = [];
+            document.getElementById("level").textContent = level;
+            saveProgress();
+            document.getElementById("status").textContent = "🎉 Level 3 Unlocked!";
+		    const audio = document.getElementById("music1");
+    		    audio.play();
+	    showPopup();
+        }
+
+
+        if (score === 6) {
+            document.getElementById("status").textContent = "🏆 Congratulations! You completed all levels!";
+	            const audio = document.getElementById("music1");
+    		    audio.play();
+	    showPopup();
+        }
+    } else {
+        document.getElementById("status").textContent = "❌ Incorrect. Try again.";
+    }
+}
+
+
+
+//show popup box open 
+function showPopup() {
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "flex";
+
+    setTimeout(() => {
+        overlay.style.display = "none";
+    }, 5000); // 5 seconds
+}
+//show popup box close
+
+function showSignup(){ 
+	authBox.style.display="none";
+	signupPage.style.display="block";
+}
+
+function showLogin(){ 
+	authBox.style.display="block";
+	signupPage.style.display="none";
+}
+
+
+//POP UP LOADING OPEN
+let progress = 0;
+const duration = 5000; // 10 seconds
+const intervalTime = 100; // update every 100ms
+const step = 100 / (duration / intervalTime);
+
+const progressBar = document.getElementById("progressBar");
+const percentText = document.getElementById("percentText");
+
+const progressInterval = setInterval(() => {
+    progress += step;
+    if (progress >= 100) {
+        progress = 100;
+        clearInterval(progressInterval);
+        document.getElementById("popup1").style.display = "none";
+    }
+    progressBar.style.width = progress + "%";
+    percentText.textContent = Math.round(progress) + "%";
+}, intervalTime);
+//POP UP LOADING CLOSE
+
+
+</script>
+
+</body>
+</html>

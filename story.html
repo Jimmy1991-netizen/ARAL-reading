@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Timer Game with Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#4a63f2;
+    font-family:Arial, sans-serif;
+    text-align: center;
+}
+
+
+.story-container {
+    max-width: 350px;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align:justify;
+    text-indent: 40px;
+    line-height: 1.6;
+}
+
+
+h4 {
+	text-align:center;
+    text-indent: 0px;
+}
+
+.container{
+    width:300px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+
+.primary{background:#4CAF50;color:white;}
+.secondary{background:#2196F3;color:white;}
+.danger{background:#f44336;color:white;}
+
+#time{
+    font-size:40px;
+    margin:15px 0;
+    font-weight:bold;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    padding:25px;
+    width:280px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.modal-content img{
+    width:120px;
+    margin:15px 0;
+}
+
+/*LOGIN SIGNUP OPEN*/
+.card {
+    background: white;
+    max-width: 450px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color:black;
+}
+/*LOGIN SIGNUP CLOSE*/
+
+/* Overlay POPUP LOADING OPEN*/
+.popup-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+}
+
+/* Popup box */
+.popup{
+    background:white;
+    width:70%;
+    height:70%;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    animation:scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn{
+    from{transform:scale(0.8); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+
+/* Image */
+.popup img{
+    width:120px;
+    margin-bottom:15px;
+}
+
+/* Progress Bar */
+.progress-container{
+    width:100%;
+    height:18px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+    margin:15px 0 8px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:orange;
+}
+
+/* Percentage Text */
+.percent-text{
+    font-weight:bold;
+    color:black;
+    font-size:15px;
+}
+
+.popup p{
+    font-size:16px;
+    color:#333;
+    margin-top:10px;
+}
+
+/* CI PROJECT */
+.text6{
+    font-size:34px;
+    font-weight:bold;
+    background:linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* SCHOOL YEAR */
+.text4{
+    font-size:34px;
+    color:blue;
+    text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff;
+    background:white;
+    display:inline-block;
+    padding:10px;
+}
+
+/* Level text */
+.textlevel{
+    font-size:25px;
+    background:linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.select {
+    width: 50%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+/* Overlay POPUP LOADING CLOSE*/
+
+
+
+</style>
+</head>
+
+<body>
+
+
+<!-- POPUP LOADING open-->
+<div class="popup-overlay" id="popup">
+    <div class="popup">
+        <img src="tools/deped.png" alt="Loading Image">
+
+<h2>Loboc National High School</h2>
+
+    <div class="text6">CI PROJECT</div>
+    <div class="text4">SY 2025 - 2026</div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="percent-text" id="percentText">0%</div>
+
+        <p>Loading, please wait...</p>
+    </div>
+</div>
+<!-- POPUP LOADING close-->
+
+
+
+
+
+<!-- LOGIN -->
+<div class="card" id="loginBox">
+<h2>🔐 Login</h2>
+<input type="text" id="loginUser" placeholder="Username">
+<input type="password" id="loginPass" placeholder="Password">
+<button style="background:deepskyblue;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="login()">Login</button>
+<p>No account? <button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showSignup()">Sign up</button></p>
+<br>
+<a href="index.html" ><button style="background:lightgray;">Back to Menu</button></a>
+</div>
+
+<!-- SIGNUP -->
+<div class="card" id="signupBox" style="display:none;">
+<h2>📝 Sign Up</h2>
+<input type="text" id="signupUser" placeholder="Username">
+<input type="password" id="signupPass" placeholder="Password">
+<button class="secondary" onclick="signup()">Create Account</button>
+<p><button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showLogin()">Back to Login</button></p>
+</div>
+
+
+<!--GAME DIVISION OPEN -->
+<div id="gameAll" style="width:350px;display:none;position:absolute;top:50px;">
+
+
+<!-- STORY -->
+<div class="story-container" id="gameStory" style="display:none;">
+
+<center>
+<h4>The River of Helping Paws</h4>
+</center>
+
+    <p>
+        The sun rose over the quiet forest, and all the animals slowly began to wake. Birds fluttered from branch to branch, singing cheerful songs that echoed through the trees. A shy deer stepped carefully through the tall grass, while a family of rabbits hopped near the riverbank. Each creature had its own place in the forest, and together they formed a peaceful community.
+    </p>
+
+    <p>
+        One morning, a small turtle noticed that the river was blocked by fallen branches and rocks. Fish were trapped, and the water could not flow freely. Although the turtle was slow, he asked the other animals for help. The beaver used his strong teeth to cut branches, the elephant pushed heavy logs aside, and the birds guided everyone from above. Working together, they slowly cleared the river.
+    </p>
+
+    <p>
+        By sunset, the river flowed smoothly again, and the forest seemed brighter than before. The animals gathered near the water and felt proud of what they had done. They learned that every animal, big or small, has an important role to play. When they help one another, they can overcome any problem and keep their home safe.
+    </p>
+</div>
+<!-- STORY CLOSE-->
+
+<br>
+
+<div class="container" id="instructionBox" style="display:none;background:yellow;text-align:justify;">
+<p><b>Instruction:</b> Read the story when you click the <i><b>start button</b></i> and click the <b><i>done button</b></i> when you are done reading.</p>
+</div>
+
+<br>
+
+<!-- GAME -->
+<div class="container" id="gameBox" style="display:none;">
+<h3 id="welcome"></h3>
+<div id="time">00:00</div>
+<button class="primary" onclick="startTimer()">Start</button>
+<button class="danger" onclick="stopTimer()">Done</button>
+<p>Your Records:</p>
+<div id="records"></div>
+</div>
+<!-- GAME close-->
+
+
+</div>
+<!--GAME DIVISION CLOSE -->
+
+
+
+
+
+<!-- POPUP -->
+<div class="modal" id="popup">
+<div class="modal-content">
+<h2>Great Job!</h2>
+<img src="design.jpg">
+<p>Total Time:</p>
+<h3 id="finalTime"></h3>
+<button class="secondary" onclick="closePopup()">Close</button>
+</div>
+</div>
+
+<script>
+let seconds=0;
+let timer=null;
+let currentUser="";
+
+// Show forms
+function showSignup(){
+    loginBox.style.display="none";
+    signupBox.style.display="block";
+}
+function showLogin(){
+    signupBox.style.display="none";
+    loginBox.style.display="block";
+}
+
+// SIGNUP
+function signup(){
+    let u=signupUser.value;
+    let p=signupPass.value;
+    if(u==""||p==""){alert("Fill all fields");return;}
+
+    let users=JSON.parse(localStorage.getItem("users"))||{};
+    if(users[u]){alert("Username exists");return;}
+
+    users[u]={password:p,times:[]};
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("Account created!");
+    showLogin();
+}
+
+// LOGIN
+function login(){
+    let u=loginUser.value;
+    let p=loginPass.value;
+    let users=JSON.parse(localStorage.getItem("users"))||{};
+
+    if(!users[u]||users[u].password!==p){
+        alert("Invalid login");
+        return;
+    }
+
+    currentUser=u;
+    loginBox.style.display="none";
+    gameBox.style.display="block";
+    gameAll.style.display="block";
+    instructionBox.style.display="block";
+    welcome.innerHTML="Welcome, "+u;
+    loadRecords();
+}
+
+// TIMER
+function startTimer(){
+
+    gameStory.style.display="block";
+
+    if(timer)return;
+    seconds=0;
+    time.innerHTML="00:00";
+
+    timer=setInterval(()=>{
+        seconds++;
+        let m=Math.floor(seconds/60);
+        let s=seconds%60;
+        if(m<10)m="0"+m;
+        if(s<10)s="0"+s;
+        time.innerHTML=m+":"+s;
+    },1000);
+}
+
+function stopTimer(){
+    clearInterval(timer);
+    timer=null;
+
+    finalTime.innerHTML=time.innerHTML;
+    popup.style.display="flex";
+
+    let users=JSON.parse(localStorage.getItem("users"));
+    users[currentUser].times.push(time.innerHTML);
+    localStorage.setItem("users",JSON.stringify(users));
+
+    loadRecords();
+}
+
+// RECORDS
+function loadRecords(){
+    let users=JSON.parse(localStorage.getItem("users"));
+    let list=users[currentUser].times;
+    records.innerHTML=list.map(t=>"⏱ "+t).join("<br>");
+}
+
+function closePopup(){
+    popup.style.display="none";
+}
+
+
+//POP UP LOADING OPEN
+let progress = 0;
+const duration = 5000; // 10 seconds
+const intervalTime = 100; // update every 100ms
+const step = 100 / (duration / intervalTime);
+
+const progressBar = document.getElementById("progressBar");
+const percentText = document.getElementById("percentText");
+
+const progressInterval = setInterval(() => {
+    progress += step;
+    if (progress >= 100) {
+        progress = 100;
+        clearInterval(progressInterval);
+        document.getElementById("popup").style.display = "none";
+    }
+    progressBar.style.width = progress + "%";
+    percentText.textContent = Math.round(progress) + "%";
+}, intervalTime);
+//POP UP LOADING CLOSE
+
+
+
+</script>
+
+</body>
+</html>
