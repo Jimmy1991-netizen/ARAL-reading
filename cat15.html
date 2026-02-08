@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>English Pronunciation Practice</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #4a63f2;
+    text-align: center;
+    padding: 20px;
+}
+.secondary{background:#2196F3;color:white;}
+.card {
+    background: white;
+    max-width: 450px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+.word { font-size: 28px; font-weight: bold; margin: 15px 0; }
+.correct { color: green; }
+.mispronounced { color: red; }
+
+button {
+    padding: 12px 20px;
+    margin: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.level-btn { background: #ff9800; color: white; width: 80%; }
+.locked { background: #aaa; cursor: not-allowed; }
+.hidden { display: none; }
+.score { font-size: 20px; margin-top: 10px; }
+.logout { background: #dc3545; color: white; }
+.home-btn { background: #6c757d; color: white; }
+.play-again { background: #28a745; color: white; }
+.update-btn { background:#007bff; color:white; width:80%; }
+
+/* Congratulatory Pop-up Styles */
+#congratsPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ffcc00, #ff66ff, #33ccff);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+    display: none;
+    z-index: 9999;
+    animation: popupAnim 0.7s ease-in-out;
+}
+@keyframes popupAnim {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Overlay POPUP LOADING*/
+.popup-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+}
+
+/* Popup box */
+.popup{
+    background:white;
+    width:70%;
+    height:70%;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    animation:scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn{
+    from{transform:scale(0.8); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+
+/* Image */
+.popup img{
+    width:120px;
+    margin-bottom:15px;
+}
+
+/* Progress Bar */
+.progress-container{
+    width:100%;
+    height:18px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+    margin:15px 0 8px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:orange;
+}
+
+/* Percentage Text */
+.percent-text{
+    font-weight:bold;
+    color:black;
+    font-size:15px;
+}
+
+.popup p{
+    font-size:16px;
+    color:#333;
+    margin-top:10px;
+}
+
+/* CI PROJECT */
+.text6{
+    font-size:34px;
+    font-weight:bold;
+    background:linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* SCHOOL YEAR */
+.text4{
+    font-size:34px;
+    color:blue;
+    text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff;
+    background:white;
+    display:inline-block;
+    padding:10px;
+}
+
+/* Level text */
+.textlevel{
+    font-size:25px;
+    background:linear-gradient(90deg,green,blue,indigo);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.select {
+    width: 50%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- POPUP LOADING open-->
+<div class="popup-overlay" id="popup">
+    <div class="popup">
+        <img src="tools/deped.png" alt="Loading Image">
+
+<h2>Loboc National High School</h2>
+
+    <div class="text6">CI PROJECT</div>
+    <div class="text4">SY 2025 - 2026</div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="percent-text" id="percentText">0%</div>
+
+        <p>Loading, please wait...</p>
+    </div>
+</div>
+<!-- POPUP LOADING close-->
+
+<!-- LOGIN OPEN-->
+<div class="card" id="loginPage">
+    <h2>🔐 Login</h2>
+    <input id="loginUsername" placeholder="Username">
+    <input id="loginPassword" type="password" placeholder="Password">
+    <button style="background:deepskyblue;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="handleLogin()">Login</button>
+    <p>No account?
+        <button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showSignup()">Sign Up</button>
+    </p>
+<br>
+<a href="index.html" ><button style="background:lightgray;">Back to Menu</button></a>
+</div>
+<!-- LOGIN CLOSE-->
+
+<!-- SIGN UP OPEN-->
+<div class="card hidden" id="signupPage" style="background:white;">
+    <h2>📝 Sign Up</h2>
+    <input id="signupUsername" placeholder="Username">
+    <input id="signupPassword" type="password" placeholder="Password">
+    <button class="secondary" style="box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="handleSignup()">Create Account</button>
+    <p><button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showLogin()">Back to Login</button></p>
+</div>
+<!-- SIGN UP CLOSE-->
+
+<!-- HOME -->
+<div class="card hidden" id="homePage">
+    <h2>Welcome, <span id="userDisplay"></span></h2>
+    <h3 id="levelTitle2">Click Level 1 to start the game.</h3>
+<b><p style="color:blue;font-size:40px;line-height:0.5px;">/b/</p></b>
+    <div class="score">Total Score: <span id="totalScore">0</span></div>
+
+    <button class="level-btn" onclick="startLevel(1)" id="lvl1">Level 1 </button>
+    <button class="level-btn locked" id="lvl2">Level 2 </button>
+    <button class="level-btn locked" id="lvl3">Level 3 </button>
+
+ <button class="update-btn" onclick="sendScoreToGoogleSheet()">⬆️ Update Score Online</button>
+
+
+    <button class="logout" onclick="logout()">Logout</button>
+<a href="index.html" ><button style="background:lightgray;">Back to Menu</button></a>
+</div>
+
+<!-- GAME -->
+<div class="card hidden" id="gamePage">
+
+    <div><b><span class="textlevel" id="levelTitle" style="font-size:40px;"></span></b><br>
+<b><span style="color:black;font-size:20px;">Level Score: </span><span id="levelScore" style="color:black;font-size:20px;">0</span>
+<span style="color:black;font-size:20px;">/ 5</span></b>
+<b><p style="color:blue;font-size:40px;line-height:0.5px;">/b/</p></b>
+<b><span id="levelTitle3" style="color:brown;font-size:20px;"></span></b></div>
+
+<br>
+    <div class="word" id="currentWord"></div>
+    
+    <button style="background:green;color:white;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="startRecording()">🎤 Speak</button>
+
+    <br>
+    <button style="background:deepskyblue;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="prevWord()">Previous</button>
+    <button style="background:deepskyblue;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="nextWord()">Next</button>
+
+<hr>
+    <!-- VOICE SETTINGS -->
+    <select class="select" id="voiceGender">
+        <option value="female">Female Voice</option>
+        <option value="male">Male Voice</option>
+    </select>
+
+    <p>Speech speed: <span id="speedValue">1.0</span></p>
+    <input type="range" id="voiceRate" min="0.5" max="2.0" step="0.1" value="1.0" oninput="updateSpeed(this.value)">
+
+    <br>
+
+    <button class="home-btn" onclick="backToHome()">🏠 Back to Home</button>
+
+</div>
+
+<!-- Congratulatory Popup -->
+<div id="congratsPopup">🎉 Level Accomplished! 🎉 
+        <img src="tools/giphy.gif" alt="Loading Image">
+</div>
+
+<!-- Audio for congrats -->
+<audio id="congratsSound" src="tools/congrats.mp3"></audio>
+
+<!-- Audio for correct -->
+<audio id="corSound" src="tools/check.mp3"></audio>
+
+<!-- Audio for wrong -->
+<audio id="wrSound" src="tools/wrong.mp3"></audio>
+
+
+<script>
+/* 🔴 PUT YOUR GOOGLE APPS SCRIPT WEB APP URL HERE */
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwU8tDxN3YM8Ab0jehji7s-4ytMviHDkdi6Dsoxi6qCrv4ME6OsBP1xBAXMuqgHnfKudg/exec";
+
+
+const levels = {
+    1:["box", "bite", "bug", "bank", "best"],
+    2:["back to bench", "bell on branch", "big red balloon", "bite of biscuit", "brush on broom"],
+    3:["my mother bake the best cake with one bite", "the bank delivered a box to the bench", "the bell on the bus scared a small bird", "she put the book in the basket near the blind", "behold the old bar painted along the border"]
+};
+
+let currentUser = null;
+let totalScore = 0;
+let unlockedLevel = 1;
+let level = 1, index = 0, levelScore = 0;
+let words = [];
+let scored = new Set();
+let wordColors = {}; // permanent green words
+
+let voices=[];
+    let speechRate = 1.0;
+
+speechSynthesis.onvoiceschanged=()=>{
+  voices=speechSynthesis.getVoices();
+};
+
+    function updateSpeed(value) {
+        speechRate = parseFloat(value);
+        document.getElementById("speedValue").textContent = value;
+    }
+
+/* ---------- PRONUNCIATION ---------- */
+function playPronunciation(){
+  const text=words[index];
+  const gender=document.getElementById("voiceGender").value;
+  const rate=parseFloat(document.getElementById("voiceRate").value);
+
+  let voice=voices.find(v =>
+    gender==="female"
+      ? /female|woman|zira|susan/i.test(v.name)
+      : /male|man|david|mark/i.test(v.name)
+  ) || voices[0];
+
+  const utter=new SpeechSynthesisUtterance(text);
+  utter.voice=voice;
+  utter.rate=rate;
+  utter.lang="en-US";
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter);
+}
+
+
+
+/* ---------- SIGN UP ---------- */
+function handleSignup() {
+    const user1 = document.getElementById("signupUsername").value.trim();
+    const u = user1+"-C15";
+    const p = document.getElementById("signupPassword").value.trim();
+    if(!u || !p) return alert("Please fill all fields");
+    if(localStorage.getItem("user_" + u)) return alert("User already exists");
+
+    // Initialize new account
+    localStorage.setItem("user_" + u, JSON.stringify({
+        password: p,
+        totalScore: 0,
+        unlockedLevel: 1,
+        wordColors: {}
+    }));
+
+  /* ✅ SEND DATA TO GOOGLE SHEET */
+ const fd=new FormData();
+  fd.append("username",u);
+  fd.append("password",p);
+  fd.append("score",0);
+  fd.append("level",level);
+
+  fetch(GOOGLE_SHEET_URL,{method:"POST",body:fd});
+  alert("Account created!");
+  showLogin();
+}
+
+
+/* ---------- LOGIN ---------- */
+function handleLogin() {
+    const login1 = document.getElementById("loginUsername").value.trim();
+    const u = login1+"-C15";
+    const p = document.getElementById("loginPassword").value.trim();
+    const data = JSON.parse(localStorage.getItem("user_" + u));
+    if(!data || data.password !== p) return alert("Invalid username or password");
+
+    currentUser = u;
+    totalScore = data.totalScore;
+    unlockedLevel = data.unlockedLevel;
+    wordColors = data.wordColors || {};
+
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("homePage").classList.remove("hidden");
+    document.getElementById("userDisplay").textContent = u;
+    document.getElementById("totalScore").textContent = totalScore;
+
+    // Unlock buttons according to saved progress
+    updateLevelButtons();
+}
+
+/* SEND SCORE + LEVEL */
+function sendScoreToGoogleSheet(){
+  if(!currentUser) return;
+
+  const fd=new FormData();
+  fd.append("username",currentUser);
+  fd.append("score",totalScore);
+  fd.append("level",level);
+
+  fetch(GOOGLE_SHEET_URL,{method:"POST",body:fd})
+    /*.then(()=>alert("Score & Level updated ✅"));*/
+}
+
+
+/* ---------- LOGOUT ---------- */
+function logout(){
+    currentUser = null;
+    document.getElementById("homePage").classList.add("hidden");
+    document.getElementById("loginPage").classList.remove("hidden");
+}
+
+/* ---------- UI ---------- */
+function showSignup(){document.getElementById("loginPage").classList.add("hidden"); document.getElementById("signupPage").classList.remove("hidden");}
+function showLogin(){document.getElementById("signupPage").classList.add("hidden"); document.getElementById("loginPage").classList.remove("hidden");}
+
+/* ---------- HOME ---------- */
+function unlock(id, lv){
+    if(totalScore >= 5){document.getElementById("levelTitle2").textContent = "Latest level accomplished: Level 1";}
+    if(totalScore >= 10) {document.getElementById("levelTitle2").textContent = "Latest level accomplished: Level 2";}
+    if(totalScore >= 15){document.getElementById("levelTitle2").textContent = "Latest level accomplished: Level 3";}
+
+
+    const btn = document.getElementById(id);
+    btn.classList.remove("locked");
+    btn.onclick = ()=>startLevel(lv);
+}
+function updateLevelButtons(){
+    if(totalScore >= 5) unlock("lvl2", 2); else document.getElementById("lvl2").classList.add("locked");  
+    if(totalScore >= 10) unlock("lvl3", 3); else document.getElementById("lvl3").classList.add("locked");
+
+
+    if(totalScore >= 5) hideButtons(lvl1, 1);	
+    if(totalScore >= 10) hideButtons(lvl2, 2);	
+    if(totalScore >= 15) hideButtons(lvl3, 3);
+}
+
+function hideButtons(id, lv){
+    if(totalScore >= 5) document.getElementById("lvl1").disabled = true;
+    if(totalScore >= 10) document.getElementById("lvl2").disabled = true;
+    if(totalScore >= 15) document.getElementById("lvl3").disabled = true;
+}
+
+
+function updateTitle3(){
+    if(level === 1) document.getElementById("levelTitle3").textContent = "Reading Words";
+    if(level === 2) document.getElementById("levelTitle3").textContent = "Reading Phrases";
+    if(level === 3) document.getElementById("levelTitle3").textContent = "Reading Sentences";
+}
+
+
+
+/* ---------- GAME ---------- */
+function startLevel(lv){
+    level = lv;
+    words = levels[lv];
+    index = 0;
+    levelScore = 0;
+    words.forEach(w=>{if(wordColors[w]==="green") levelScore++;});
+    document.getElementById("homePage").classList.add("hidden");
+    document.getElementById("gamePage").classList.remove("hidden");
+    document.getElementById("levelTitle").textContent = "Level " + lv;
+    updateTitle3();
+    updateWord();
+    updateLevelScore();
+}
+
+function updateWord(){
+    const wordEl = document.getElementById("currentWord");
+    const current = words[index];
+    wordEl.textContent = current;
+    wordEl.classList.remove("correct","mispronounced");
+    if(wordColors[current]==="green") wordEl.classList.add("correct");
+}
+
+function nextWord(){if(index<words.length-1) index++; updateWord();}
+function prevWord(){if(index>0) index--; updateWord();}
+//function playPronunciation(){speechSynthesis.speak(new SpeechSynthesisUtterance(words[index]));}
+
+function startRecording(){
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const r = new SR();
+    r.lang="en-US"; r.start();
+    r.onresult = e => check(e.results[0][0].transcript.toLowerCase());
+}
+
+function check(spoken){
+    const wordEl = document.getElementById("currentWord");
+    const currentWordText = words[index];
+
+    if(spoken.includes(currentWordText)){
+        if(!scored.has(currentWordText)){
+            scored.add(currentWordText);
+            wordColors[currentWordText] = "green";
+	correctSound();
+            totalScore++;
+            levelScore++;
+	sendScoreToGoogleSheet(); //update score in google sheet if correct
+
+            // Check for congratulatory thresholds
+            if([5,10,15,20,25,30,35,40].includes(totalScore)){
+                showCongrats();
+            }
+        }
+        wordEl.classList.remove("mispronounced");
+        wordEl.classList.add("correct");
+    } else {
+        wordEl.classList.add("mispronounced");
+		wrongSound();
+		playPronunciation();
+
+        setTimeout(()=>{wordEl.classList.remove("mispronounced"); if(wordColors[currentWordText]==="green") wordEl.classList.add("correct");},800);
+    }
+
+    document.getElementById("levelScore").textContent = levelScore;
+    document.getElementById("totalScore").textContent = totalScore;
+
+    saveUser();
+    updateLevelButtons();
+
+    // Go back to home page after reaching threshold
+    if((level===1 && totalScore>=5) || (level===2 && totalScore>=10) || (level===3 && totalScore>=15)){
+                showCongrats();
+        backToHome();
+    }
+}
+
+/* ---------- SHOW CONGRATULATORY POPUP ---------- */
+function showCongrats(){
+    const popup = document.getElementById("congratsPopup");
+    const audio = document.getElementById("congratsSound");
+    popup.style.display = "block";
+    audio.play();
+    setTimeout(()=>{popup.style.display = "none";}, 5000);
+}
+
+/* ---------- CORRECT PRONUNCIATION SOUND ---------- */
+function correctSound(){
+    const audio = document.getElementById("corSound");
+    audio.play();
+}
+
+/* ---------- WRONG PRONUNCIATION SOUND ---------- */
+function wrongSound(){
+    const audio = document.getElementById("wrSound");
+    audio.play();
+}
+
+/* ---------- SAVE USER ---------- */
+function saveUser(){
+    const prev = JSON.parse(localStorage.getItem("user_"+currentUser)).password;
+    localStorage.setItem("user_"+currentUser, JSON.stringify({
+        password: prev,
+        totalScore,
+        unlockedLevel,
+        wordColors
+    }));
+}
+
+/* ---------- BACK TO HOME ---------- */
+function backToHome(){
+    document.getElementById("gamePage").classList.add("hidden");
+    document.getElementById("homePage").classList.remove("hidden");
+}
+
+/* ---------- UPDATE LEVEL SCORE ---------- */
+function updateLevelScore(){
+    document.getElementById("levelScore").textContent = levelScore;
+    document.getElementById("totalScore").textContent = totalScore;
+}
+
+function totalScoreSpan(){
+  document.getElementById("totalScore").textContent=totalScore;
+}
+
+
+/* ---------- PLAY ANOTHER GAME ---------- */
+function restartGame(){
+    scored.clear();
+    wordColors = {};
+    totalScore = 0;
+    levelScore = 0;
+    unlockedLevel = 1;
+
+    document.getElementById("playAgain").classList.add("hidden");
+    document.getElementById("lvl2").classList.add("locked");
+    document.getElementById("lvl3").classList.add("locked");
+
+    document.getElementById("homePage").classList.remove("hidden");
+    document.getElementById("gamePage").classList.add("hidden");
+    updateLevelScore();
+}
+
+//POP UP LOADING OPEN
+let progress = 0;
+const duration = 5000; // 10 seconds
+const intervalTime = 100; // update every 100ms
+const step = 100 / (duration / intervalTime);
+
+const progressBar = document.getElementById("progressBar");
+const percentText = document.getElementById("percentText");
+
+const progressInterval = setInterval(() => {
+    progress += step;
+    if (progress >= 100) {
+        progress = 100;
+        clearInterval(progressInterval);
+        document.getElementById("popup").style.display = "none";
+    }
+    progressBar.style.width = progress + "%";
+    percentText.textContent = Math.round(progress) + "%";
+}, intervalTime);
+//POP UP LOADING CLOSE
+
+
+</script>
+
+</body>
+</html>
