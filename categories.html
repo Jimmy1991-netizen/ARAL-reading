@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI Project SY 2025-2026</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: cornsilk;
+    }
+
+    header {
+      background-color: blue;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #fff;
+      border-bottom: 2px solid #ddd;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+    }
+
+    nav button:hover, nav button.active {
+      border-bottom: 3px solid blue;
+      color: maroon;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .container.active {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 10px;
+      text-align: center;
+      transition: 0.3s;
+      position: relative;
+    }
+
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .product h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+
+    .product p {
+      color: blue;
+      font-size: 14px;
+    }
+
+    .product button {
+      background-color: blue;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      width:50%;
+    }
+
+    .product button:hover {
+      background-color: #e65c00;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+
+  <header>READING CATEGORIES</header>
+
+  <nav>
+    <button class="tab active" data-tab="home" style="color:blue;">CHOOSE YOUR CATEGORY</button>
+  </nav>
+
+<center>
+<br>
+  <!-- Home Supplies -->
+<a href="index.html" ><button style="background:lightgray;padding: 8px 15px;border-radius: 5px;border: none;">Back to Menu</button></a>
+<br><br>
+</center>
+
+<header style="background:teal;">SHORT AND LONG VOWEL SOUNDS</header>
+
+  <section class="container active" id="home">
+
+
+   <div class="product">
+	<p><b style="color:black;">Category 1</b></p>
+	<p><b>Short a /ă/  </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat1.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 2</b></p>
+	<p><b>Short e /ĕ/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat2.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 3</b></p>
+	<p><b>Short i /ĭ/ </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat3.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 4</b></p>
+	<p><b>Short o /ŏ/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat4.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 5</b></p>
+	<p><b>Short u /ŭ/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat5.html"><button> Open </button></a>
+    </div>
+
+  <div class="product">
+	<p><b style="color:black;">Category 6</b></p>
+	<p><b>Long a /ā/ </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat6.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 7</b></p>
+	<p><b>Long e /ē/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat7.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 8</b></p>
+	<p><b>Long i /ī/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat8.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 9</b></p>
+	<p><b>Long o /ō/ </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat9.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 10</b></p>
+	<p><b>Long u </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat10.html"><button> Open </button></a>
+    </div>
+
+
+  </section>
+
+<header style="background:teal;">DIPHTHONGS</header>
+
+
+
+<section class="container active" id="home">
+
+
+   <div class="product">
+	<p><b style="color:black;">Category 11</b></p>
+	<p><b>/oi/ sound </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat11.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 12</b></p>
+	<p><b>/ou/ sound </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat12.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 13</b></p>
+	<p><b>/aw/ sound </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat13.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 14</b></p>
+	<p><b>/oo/ (long) sound </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat14.html"><button> Open </button></a>
+    </div>
+
+  </section>
+
+
+<header style="background:teal;">CONSONANT SOUNDS</header>
+
+
+
+<section class="container active" id="home">
+
+
+   <div class="product">
+	<p><b style="color:black;">Category 15</b></p>
+	<p><b>/b/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat15.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 16</b></p>
+	<p><b>/d/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat16.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 17</b></p>
+	<p><b>/f/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat17.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 18</b></p>
+	<p><b>/g/ (hard g)</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat18.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 19</b></p>
+	<p><b>/h/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat19.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 20</b></p>
+	<p><b>/k/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat20.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 21</b></p>
+	<p><b>/l/ </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat21.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 22</b></p>
+	<p><b>/m/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat22.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 23</b></p>
+	<p><b>/n/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat23.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 24</b></p>
+	<p><b>/p/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat24.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 25</b></p>
+	<p><b>/r/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat25.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 26</b></p>
+	<p><b>/s/</b></p>
+      <img src="readpic.png" alt="Home Item">
+       <a href="cat26.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 27</b></p>
+	<p><b>/t/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat27.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 28</b></p>
+	<p><b>/v/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat28.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 29</b></p>
+	<p><b>/w/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat29.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 30</b></p>
+	<p><b>/y/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat30.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 31</b></p>
+	<p><b>/z/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat31.html"><button> Open </button></a>
+    </div>
+
+
+  </section>
+
+<header style="background:teal;">DIGRAPH CONSONANT SOUNDS</header>
+
+
+
+<section class="container active" id="home">
+
+
+   <div class="product">
+	<p><b style="color:black;">Category 32</b></p>
+	<p><b>/sh/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat32.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 33</b></p>
+	<p><b>/ch/</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat33.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 34</b></p>
+	<p><b>/th/ (voiceless) </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat34.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Category 35</b></p>
+	<p><b>/th/ (voiced) </b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="cat35.html"><button> Open </button></a>
+    </div>
+
+  </section>
+
+
+
+
+
+
+ 
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const containers = document.querySelectorAll('.container');
+    const popup = document.getElementById('sharePopup');
+    const overlay = document.getElementById('overlay');
+    const shareImg = document.getElementById('shareImage');
+    const shareLink = document.getElementById('shareLink');
+
+    // Tab switching
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(btn => btn.classList.remove('active'));
+        tab.classList.add('active');
+        containers.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === tab.dataset.tab) {
+            section.classList.add('active');
+          }
+        });
+      });
+    });
+
+
+
+
+  </script>
+
+</body>
+</html>
+
