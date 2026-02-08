@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI Project SY 2025-2026</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: cornsilk;
+    }
+
+    header {
+      background-color: brown;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #fff;
+      border-bottom: 2px solid #ddd;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+    }
+
+    nav button:hover, nav button.active {
+      border-bottom: 3px solid brown;
+      color: maroon;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .container.active {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 10px;
+      text-align: center;
+      transition: 0.3s;
+      position: relative;
+    }
+
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .product h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+
+    .product p {
+      color: brown;
+      font-size: 14px;
+    }
+
+    .product button {
+      background-color: brown;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      width:50%;
+    }
+
+    .product button:hover {
+      background-color: #e65c00;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+
+  <header>The Legend of Ube, the Gift of the Earth</header>
+
+  <nav>
+    <button class="tab active" data-tab="home" style="color:brown;">CHALLENGES</button>
+  </nav>
+
+<center>
+<br>
+  <!-- Home Supplies -->
+<a href="culture.html" ><button style="background:lightgray;padding: 8px 15px;border-radius: 5px;border: none;">Back to Options</button></a>
+<br><br>
+</center>
+
+
+  <section class="container active" id="home">
+
+
+   <div class="product">
+	<p><b style="color:black;">Challenge 1</b></p>
+	<p><b>Reading Challenging Words</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="story1-1.html"><button> Open </button></a>
+    </div>
+
+
+    <div class="product">
+	<p><b style="color:black;">Challenge 2</b></p>
+	<p><b>Story Reading with Timer</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="story1-2.html"><button> Open </button></a>
+    </div>
+
+    <div class="product">
+	<p><b style="color:black;">Challenge 3</b></p>
+	<p><b>Comprehension Check</b></p>
+      <img src="readpic.png" alt="Home Item">
+      <a href="story1-3.html"><button> Open </button></a>
+    </div>
+
+
+  </section>
+
+
+
+
+
+
+ 
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const containers = document.querySelectorAll('.container');
+    const popup = document.getElementById('sharePopup');
+    const overlay = document.getElementById('overlay');
+    const shareImg = document.getElementById('shareImage');
+    const shareLink = document.getElementById('shareLink');
+
+    // Tab switching
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(btn => btn.classList.remove('active'));
+        tab.classList.add('active');
+        containers.forEach(section => {
+          section.classList.remove('active');
+          if (section.id === tab.dataset.tab) {
+            section.classList.add('active');
+          }
+        });
+      });
+    });
+
+
+
+
+  </script>
+
+</body>
+</html>
+

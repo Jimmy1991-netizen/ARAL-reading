@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Timer Game with Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#4a63f2;
+    font-family:Arial, sans-serif;
+}
+
+
+.story-container {
+    max-width: 100%;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align:justify;
+    text-indent: 40px;
+    line-height: 1.6;
+}
+
+
+h4 {
+	text-align:center;
+    text-indent: 0px;
+}
+
+.container{
+    max-width: 450px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+input{
+    width:90%;
+    padding:10px;
+    margin:8px 0;
+}
+
+button{
+    padding:10px 20px;
+    margin:5px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.primary{background:#4CAF50;color:white;}
+.secondary{background:#2196F3;color:white;}
+.danger{background:#f44336;color:white;}
+
+#time{
+    font-size:40px;
+    margin:15px 0;
+    font-weight:bold;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    padding:25px;
+    width:280px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.modal-content img{
+    width:120px;
+    margin:15px 0;
+}
+
+
+</style>
+</head>
+
+<body>
+
+
+<!-- LOGIN -->
+<div class="container" id="loginBox">
+<h2>Login</h2>
+<input type="text" id="loginUser" placeholder="Username">
+<input type="password" id="loginPass" placeholder="Password">
+<button class="primary" onclick="login()">Login</button>
+<p>No account? <a href="#" onclick="showSignup()">Sign up</a></p>
+</div>
+
+<!-- SIGNUP -->
+<div class="container" id="signupBox" style="display:none;">
+<h2>Sign Up</h2>
+<input type="text" id="signupUser" placeholder="Username">
+<input type="password" id="signupPass" placeholder="Password">
+<button class="secondary" onclick="signup()">Create Account</button>
+<p>Already have account? <a href="#" onclick="showLogin()">Login</a></p>
+</div>
+
+<center>
+<!--GAME DIVISION OPEN -->
+<div id="gameAll" style="width:90%;padding:25px;margin:auto;display:none;position:absolute;top:10px;left:0px;">
+<center>
+<a href="story1.html" ><button style="background:lightgray;">Back to Challenges</button></a>
+</center>
+
+<!-- STORY -->
+<div class="story-container" id="gameStory" style="display:none;">
+
+<center>
+<h4>The Legend of Ube, the Gift of the Earth</h4>
+</center>
+
+    <p>
+Long ago, before the Chocolate Hills rose like sleeping giants and before rivers learned the paths they now follow, the island of Bohol was watched over by the spirits of the land. These spirits lived beneath the soil, in the roots of trees and stones, and they listened closely to the hearts of the people.
+    </p>
+
+    <p>
+In a small farming village near the coast lived a young girl named Amihan. She was quiet but kind, and every morning she helped her mother tend their garden. The land was dry, and food was scarce. Many crops withered under the hot sun, and hunger visited the village like an unwanted guest.
+    </p>
+
+    <p>
+One day, while digging the earth with her wooden spade, Amihan heard a soft voice.
+    </p>
+
+    <p>
+“Dig gently,” it whispered. “The earth feels pain, too.”
+    </p>
+
+    <p>
+Startled, Amihan stopped. From the soil emerged a diwata—a spirit of the land—her hair the color of twilight and her skin glowing like moonlight on water.
+    </p>
+
+    <p>
+“You are the first who has listened,” said the diwata. “Because of your care for the land, I will give your people a gift.”
+    </p>
+
+    <p>
+The diwata touched the ground, and from the soil grew a plant with wide green leaves. Beneath it lay a root unlike any the villagers had seen—deep purple, rich as the evening sky.
+    </p>
+
+    <p>
+“This is ube,” the diwata said. “It will grow strong beneath the earth, even when the sun is harsh. Treat it with patience, and it will feed many.”
+    </p>
+
+    <p>
+Amihan shared the gift with the village. The people planted ube carefully, never rushing the harvest, always thanking the land. When the yams were finally dug up, they were plentiful and sweet. Mothers cooked them into warm dishes, elders shared them during gatherings, and children laughed with purple-stained smiles.
+    </p>
+
+    <p>
+But the diwata warned them, “Remember, ube grows hidden. Like true blessings, it requires time, humility, and respect.”
+    </p>
+
+    <p>
+The villagers remembered. They learned that strength does not always show above ground, and that the earth gives generously when treated with care.
+    </p>
+
+    <p>
+To this day, the people of Bohol believe that every ube carries the spirit of patience and gratitude. Its purple color reminds them of the sky at dusk—when day rests and the land quietly prepares for tomorrow.
+    </p>
+
+    <p>
+And so, whenever ube is shared during fiestas or family meals, the elders smile and say:
+    </p>
+
+    <p>
+“This is not just food. This is the earth remembering our kindness.”
+    </p>
+
+
+
+
+</div>
+<!-- STORY CLOSE-->
+
+<br>
+
+<div class="container" id="instructionBox" style="display:none;background:yellow;text-align:justify;">
+<p><b>Instruction:</b> Read the story when you click the <i><b>start button</b></i> and click the <b><i>done button</b></i> when you are done reading.</p>
+</div>
+
+<br>
+
+<!-- GAME -->
+<div class="container" id="gameBox" style="display:none;">
+<h3 id="welcome"></h3>
+<div id="time">00:00</div>
+<button class="primary" onclick="startTimer()">Start</button>
+<button class="danger" onclick="stopTimer()">Done</button>
+<p>Your Records:</p>
+<div id="records"></div>
+</div>
+<!-- GAME close-->
+
+
+</div>
+<!--GAME DIVISION CLOSE -->
+</center>
+
+
+
+
+<!-- POPUP -->
+<div class="modal" id="popup">
+<div class="modal-content">
+<h2>Great Job!</h2>
+<img src="design.jpg">
+<p>Total Time:</p>
+<h3 id="finalTime"></h3>
+<button class="secondary" onclick="closePopup()">Close</button>
+</div>
+</div>
+
+<script>
+let seconds=0;
+let timer=null;
+let currentUser="";
+
+// Show forms
+function showSignup(){
+    loginBox.style.display="none";
+    signupBox.style.display="block";
+}
+function showLogin(){
+    signupBox.style.display="none";
+    loginBox.style.display="block";
+}
+
+// SIGNUP
+function signup(){
+	let user1=signupUser.value;
+    let u=user1+"-S1-2";
+    let p=signupPass.value;
+    if(u==""||p==""){alert("Fill all fields");return;}
+
+    let users=JSON.parse(localStorage.getItem("users"))||{};
+    if(users[u]){alert("Username exists");return;}
+
+    users[u]={password:p,times:[]};
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("Account created!");
+    showLogin();
+}
+
+// LOGIN
+function login(){
+	let user2=loginUser.value;
+    let u=user2+"-S1-2";
+    let p=loginPass.value;
+    let users=JSON.parse(localStorage.getItem("users"))||{};
+
+    if(!users[u]||users[u].password!==p){
+        alert("Invalid login");
+        return;
+    }
+
+    currentUser=u;
+    loginBox.style.display="none";
+    gameBox.style.display="block";
+    gameAll.style.display="block";
+    instructionBox.style.display="block";
+    welcome.innerHTML="Welcome, "+u;
+    loadRecords();
+}
+
+// TIMER
+function startTimer(){
+
+    gameStory.style.display="block";
+
+    if(timer)return;
+    seconds=0;
+    time.innerHTML="00:00";
+
+    timer=setInterval(()=>{
+        seconds++;
+        let m=Math.floor(seconds/60);
+        let s=seconds%60;
+        if(m<10)m="0"+m;
+        if(s<10)s="0"+s;
+        time.innerHTML=m+":"+s;
+    },1000);
+}
+
+function stopTimer(){
+    clearInterval(timer);
+    timer=null;
+
+    finalTime.innerHTML=time.innerHTML;
+    popup.style.display="flex";
+
+    let users=JSON.parse(localStorage.getItem("users"));
+    users[currentUser].times.push(time.innerHTML);
+    localStorage.setItem("users",JSON.stringify(users));
+
+    loadRecords();
+}
+
+// RECORDS
+function loadRecords(){
+    let users=JSON.parse(localStorage.getItem("users"));
+    let list=users[currentUser].times;
+    records.innerHTML=list.map(t=>"⏱ "+t).join("<br>");
+}
+
+function closePopup(){
+    popup.style.display="none";
+}
+</script>
+
+</body>
+</html>
