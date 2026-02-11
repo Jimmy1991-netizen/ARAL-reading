@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>English Grammar Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    justify-content:center;
+    align-items:center;
+    background:#5b5bd6;
+    font-family:Arial,sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.quiz-container,.auth-box{
+    width:400px;
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    text-align: left;
+}
+
+.auth-box input{
+    width:90%;
+    padding:10px;
+    margin:5px 0;
+}
+
+.auth-box button{width:45%;}
+
+.quiz-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.timer{
+    background:#2f2f2f;
+    color:#fff;
+    padding:5px 10px;
+    border-radius:6px;
+}
+
+.option{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+.option.selected{
+    background:#dce3ff;
+    border-color:#5b5bd6;
+}
+
+button{
+    padding:8px 16px;
+    border:none;
+    background:#5b5bd6;
+    color:#fff;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:disabled{background:#aaa;}
+
+.result{display:none;}
+.wrong-item{font-size:14px;}
+
+/*LOGIN SIGNUP OPEN*/
+.card {
+    background: white;
+    max-width: 450px;
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 8px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color:black;
+}
+.secondary{background:#2196F3;color:white;}
+/*LOGIN SIGNUP CLOSE*/
+
+/* Overlay POPUP LOADING OPEN*/
+.popup-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+}
+
+/* Popup box */
+.popup{
+    background:white;
+    width:70%;
+    height:70%;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    animation:scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn{
+    from{transform:scale(0.8); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+
+/* Image */
+.popup img{
+    width:120px;
+    margin-bottom:15px;
+}
+
+/* Progress Bar */
+.progress-container{
+    width:100%;
+    height:18px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+    margin:15px 0 8px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:orange;
+}
+
+/* Percentage Text */
+.percent-text{
+    font-weight:bold;
+    color:black;
+    font-size:15px;
+}
+
+.popup p{
+    font-size:16px;
+    color:#333;
+    margin-top:10px;
+}
+
+/* CI PROJECT */
+.text6{
+    font-size:34px;
+    font-weight:bold;
+    background:linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* SCHOOL YEAR */
+.text4{
+    font-size:34px;
+    color:blue;
+    text-shadow:
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff;
+    background:white;
+    display:inline-block;
+    padding:10px;
+}
+
+/* Level text */
+.textlevel{
+    font-size:25px;
+    background:linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.select {
+    width: 50%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+/* Overlay POPUP LOADING CLOSE*/
+
+.story-container {
+    max-width: 100%;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align:justify;
+    text-indent: 40px;
+    line-height: 1.6;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- POPUP LOADING open-->
+<div class="popup-overlay" id="popup">
+    <div class="popup">
+        <img src="tools/deped.png" alt="Loading Image">
+
+<h2>Loboc National High School</h2>
+
+    <div class="text6">CI PROJECT</div>
+    <div class="text4">SY 2025 - 2026</div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="percent-text" id="percentText">0%</div>
+
+        <p>Loading, please wait...</p>
+    </div>
+</div>
+<!-- POPUP LOADING close-->
+
+
+
+<div class="card" id="authBox">
+    <h2>🔐 Login</h2>
+    <input id="username2" placeholder="Username">
+    <input id="password2" type="password" placeholder="Password">
+    <button style="background:deepskyblue;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="login()">Login</button>
+    <p>No account?
+        <button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showSignup()">Sign Up</button>
+    </p>
+<br>
+<a href="index.html" ><button style="background:lightgray;">Back to Menu</button></a>
+</div>
+<!-- LOGIN CLOSE-->
+
+
+<!-- SIGN UP OPEN-->
+<div class="card" id="signupPage" style="background:white;display:none;">
+    <h2>📝 Sign Up</h2>
+    <input id="username1" placeholder="Username">
+    <input id="password1" type="password" placeholder="Password">
+    <button class="secondary" style="box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="signUp()">Create Account</button>
+    <p><button style="background:lightgray;box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="showLogin()">Back to Login</button></p>
+</div>
+<!-- SIGN UP CLOSE-->
+
+
+
+
+
+
+<center>
+<!-- QUIZ -->
+<div class="quiz-container" id="quizBox" style="display:none">
+
+
+
+<div class="quiz-header">
+<h1 style="color:green;">Comprehension Check <br><span style="color:blue;font-size:20px;"><i>(10 Items)</i></span></h1>
+
+<div class="timer" id="timerBox" style="display:none">
+⏱ <span id="time">15</span>s
+</div>
+</div>
+
+<p>
+User: <b id="currentUser"></b><br>
+<button style="background:red;color:white;" onclick="logout()">Logout</button>
+<button style="background:#5b5bd6;color:white;" onclick="startQuiz()">Start Quiz</button>
+<button style="background:#5b5bd6;color:white;" onclick="showAttemptsOnly()">Attempts</button>
+</p>
+
+<div id="quizArea" style="display:none">
+
+<hr>
+<p><b>Direction</b>: Each question will appear only for 60 seconds. Choose the correct answer before the time is up.
+You can review the story below.</p>
+<hr>
+
+<p>Question:</p>
+<b><div id="questionText"></div></b>
+<br>
+<div id="options"></div>
+<p id="progress"></p>
+<button id="nextBtn" disabled>Next</button>
+</div>
+
+<div class="result" id="resultArea">
+
+<hr>
+<h3>Quiz Result</h3>
+<h4>Exploring Non-Mendelian Genetics</h4>
+<p>Score: <span id="score"></span></p>
+<p>High Score: <span id="highScore"></span></p>
+
+<hr>
+<h4>Previous Attempts</h4>
+<div id="attemptList"></div>
+
+<hr>
+<h4>Wrong Items</h4>
+<div id="wrongList"></div>
+<hr>
+</div>
+
+</div>
+
+</center>
+
+<br><br>
+<!-- STORY -->
+<div class="story-container" id="gameStory" style="display:none;">
+
+<center>
+<h4>Exploring Non-Mendelian Genetics</h4>
+</center>
+
+<p>[1]  
+Exploring Non-Mendelian Genetics 
+Non-Mendelian genetics encompasses inheritance patterns that deviate from 
+the classical rules established by Gregor Mendel. Mendel's groundbreaking 
+experiments with pea plants laid the foundation for understanding genetic inheritance 
+through specific dominant and recessive alleles. However, this framework is limited, 
+as many traits in living organisms exhibit more complex inheritance patterns. By 
+exploring non-Mendelian concepts, we can gain a deeper appreciation for the diversity 
+of genetic traits present in nature.
+</p>
+
+<p>[2] 
+One significant form of non-Mendelian inheritance is incomplete dominance. In 
+this pattern, the offspring display a phenotype that is a blend of the traits from both 
+parents. For instance, crossing a red flower (RR) with a white flower (WW) results in 
+a hybrid (RW) that is pink. This indicates that neither allele is completely dominant, 
+leading to an intermediate expression of traits. This phenomenon shows how traits 
+can combine in ways that do not fit into Mendelian categories.
+</p>
+
+<p>[3] 
+Another concept within non-Mendelian genetics is codominance. Codominance 
+occurs when both alleles in a heterozygous individual are fully expressed in the 
+phenotype. A well-known example can be observed in certain breeds of chickens, 
+where black feathers (B) and white feathers (W) are codominant. When a black 
+chicken and a white chicken are cross-fertilized, the offspring display both black and 
+white feathers. This demonstrates that both alleles contribute equally to the 
+phenotype, resulting in distinct and observable traits. 
+ </p>
+
+<p>[4] 
+Polygenic inheritance represents another non-Mendelian inheritance where 
+multiple genes influence a single trait. Traits such as human height and skin color fall 
+under this category, as they are controlled by several genes working together. This 
+results in a wide range of phenotypes rather than distinct categories. For example, 
+human height can vary significantly due to the cumulative effects of many different 
+genes, illustrating the complexity of genetic inheritance beyond simple dominant
+recessive relationships. 
+ </p>
+
+<p>[5] 
+Additionally, extranuclear inheritance involves genes located outside the 
+nucleus, primarily within mitochondria or chloroplasts. Mitochondrial DNA is inherited 
+from the mother and can lead to specific traits or diseases that do not adhere strictly 
+to Mendelian patterns. This type of inheritance provides insight into certain genetic 
+conditions passed down through maternal lines and emphasizes the importance of 
+understanding genetic transmission beyond nuclear DNA.
+</p>
+
+
+<p>[6] 
+Understanding non-Mendelian genetics is crucial across various fields, 
+including medicine, agriculture, and evolutionary biology. It offers valuable insights into 
+complex traits and how they are inherited from one generation to the next. For 
+example, recognizing that some genetic disorders may arise from multiple genes 
+rather than a single gene can refine our approaches to treatment and prevention 
+strategies. Overall, non-Mendelian genetics enriches our knowledge of heredity and helps explain the intricate tapestry of life’s diversity, revealing how complex interactions shape the traits we observe in organisms today. 
+</p>
+
+
+</div>
+<!-- STORY CLOSE-->
+
+<br>
+
+
+
+
+<script>
+// ---------- USERS ----------
+function getUsers(){
+ return JSON.parse(localStorage.getItem("quizUsers"))||{};
+}
+function saveUsers(u){
+ localStorage.setItem("quizUsers",JSON.stringify(u));
+}
+
+let loggedUser=null;
+
+function signUp(){
+ let user1=username1.value.trim();
+ let u=user1+"-P101-3";
+ let p=password1.value;
+
+ if(!u||!p) return alert("Fill in all fields");
+ let users=getUsers();
+
+ if(users[u]) return alert("Username already exists");
+ users[u]={password:p,highscore:0,attempts:[]};
+
+ saveUsers(users);
+ alert("✅ Account created. You can log in.");
+ authBox.style.display="block";
+ signupPage.style.display="none";
+}
+
+function login(){
+ let users=getUsers();
+ let user2=username2.value.trim();
+ let u=user2+"-P101-3";
+ let p=password2.value;
+ if(!users[u]||users[u].password!==p) return alert("Invalid username or password");
+ loggedUser=u;
+ currentUser.textContent=u;
+ authBox.style.display="none";
+ quizBox.style.display="block";
+}
+
+// ---------- LOGOUT ----------
+function logout(){location.reload();}
+
+
+
+// ---------- QUESTIONS ----------
+const questionBank=[
+//1
+{q:"hat has the same meaning as the word diversity in the first paragraph? ",
+options:["concepts","patterns","types","variety"],
+answer:"variety"},
+//2
+{q:"Which is an example of codominance pattern?",
+options:["A child who inherited a combination of his mother (black) and father (white) skin.","A child who inherited the blue eyes of his mother and the curly hair of his father","A child who inherited the brown skin of his mother and the height of his father","A child who inherited diabetes from his mother who got it from her grandmother"],
+answer:"A child who inherited the blue eyes of his mother and the curly hair of his father"},
+//3
+{q:"Which is an example of incomplete dominance pattern? ",
+options:["A child who inherited a combination of his mother (black) and father (white) skin.","A child who inherited the blue eyes of his mother and the curly hair of his father","A child who inherited the brown skin of his mother and the height of his father","A child who inherited diabetes from his mother who got it from her grandmother"],
+answer:"A child who inherited a combination of his mother (black) and father (white) skin."},
+//4
+{q:"Which is an example of extranuclear inheritance pattern?",
+options:["A child who inherited a combination of his mother (black) and father (white) skin.","A child who inherited the blue eyes of his mother and the curly hair of his father","A child who inherited the brown skin of his mother and the height of his father","A child who inherited diabetes from his mother who got it from her grandmother"],
+answer:"A child who inherited diabetes from his mother who got it from her grandmother"},
+
+//5
+{q:"Which of the following is an example of codominance pattern? ",
+options:["a child who inherited a combination of his mother (black) and father (white) skin","a child who inherited the blue eyes of his mother and the curly hair of his father","a child who inherited the brown skin of his mother and the height of his father","a child who inherited diabetes from his mother who got it from her grandmother"],
+answer:"a child who inherited the blue eyes of his mother and the curly hair of his father"},
+//6
+{q:"What is the importance of knowing non-Mendelian genetics?",
+options:["It challenges the classical rules of inheritance patterns established by Gregor Mendel.","It disproves the classical rules of inheritance patterns established by Gregor Mendel.","It expands the classical rules of inheritance patterns established by Gregor Mendel.","It improves the classical rules of inheritance patterns established by Gregor Mendel."],
+answer:"It challenges the classical rules of inheritance patterns established by Gregor Mendel."},
+
+//7
+{q:"What is the purpose of the selection? ",
+options:["to argue about Gregor Mendel’s classic theories on genetics","to describe the different rules of inheritance patterns","to inform readers about the limitations of the Mendelian theory","to persuade readers to consider non-Mendelian inheritance patterns"],
+answer:"to persuade readers to consider non-Mendelian inheritance patterns"},
+
+//8
+{q:"Which of the following is NOT discussed in the selection?",
+options:["complexities of inheritance patterns","descriptions of genetic conditions","examples of non-Mendelian patterns","significance of genetic inheritance"],
+answer:"descriptions of genetic conditions"},
+//9
+{q:"Which paragraph contains the topic sentence?",
+options:["first paragraph","fourth paragraph ","last paragraph","second paragraph "],
+answer:"last paragraph"},
+//10
+{q:"How did the author organize the ideas in the selection?",
+options:["by comparing and contrasting Mendelian and non-Mendelian rules of inheritance","by describing the characteristics of non-Mendelian genetic inheritance patterns","by inferring the cause and effects of the different inheritance patterns on people","by presenting the problems that humans may encounter because of genetic inheritance"],
+answer:"by describing the characteristics of non-Mendelian genetic inheritance patterns"}
+];
+
+let questions=[],index=0,score=0,selected=null,wrong=[];
+let timeLeft=60,timer;
+let quizStartTime=0;
+const TOTAL_QUESTIONS=10;
+
+function shuffle(a){return a.sort(()=>Math.random()-0.5);}
+
+// ---------- START QUIZ ----------
+function startQuiz(){
+ score=0;
+ wrong=[];
+ index=0;
+ questions=shuffle([...questionBank]).slice(0,TOTAL_QUESTIONS);
+ quizStartTime=Date.now();
+
+ quizArea.style.display="block";
+ resultArea.style.display="none";
+ timerBox.style.display="block";
+gameStory.style.display="block";
+
+ loadQuestion();
+
+}
+
+// ---------- TIMER ----------
+function startTimer(){
+ clearInterval(timer);
+ timeLeft=60;
+ time.textContent=timeLeft;
+ timer=setInterval(()=>{
+   timeLeft--;
+   time.textContent=timeLeft;
+   if(timeLeft===0){
+     clearInterval(timer);
+     submit();
+   }
+ },1000);
+}
+
+// ---------- LOAD QUESTION ----------
+function loadQuestion(){
+ selected=null;
+ nextBtn.disabled=true;
+ options.innerHTML="";
+ let q=questions[index];
+ questionText.textContent=q.q;
+ progress.textContent=`${index+1} of ${TOTAL_QUESTIONS}`;
+
+ shuffle([...q.options]).forEach(opt=>{
+  let d=document.createElement("div");
+  d.className="option";
+  d.textContent=opt;
+  d.onclick=()=>{
+   document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+   d.classList.add("selected");
+   selected=opt;
+   nextBtn.disabled=false;
+  };
+  options.appendChild(d);
+ });
+ startTimer();
+}
+
+nextBtn.onclick=()=>{
+ clearInterval(timer);
+ submit();
+};
+
+// ---------- SUBMIT ----------
+function submit(){
+ let q=questions[index];
+ if(selected===q.answer) score++;
+ else wrong.push(q.q);
+
+ index++;
+ if(index<TOTAL_QUESTIONS) loadQuestion();
+ else showResult();
+}
+
+// ---------- RESULT ----------
+function formatTime(ms){
+ let sec=Math.floor(ms/1000);
+ return Math.floor(sec/60)+"m "+(sec%60)+"s";
+}
+
+function showResult(){
+ quizArea.style.display="none";
+ resultArea.style.display="block";
+ timerBox.style.display="none";
+
+ score.textContent=score+"/"+TOTAL_QUESTIONS;
+
+ let totalTime=Date.now()-quizStartTime;
+ let timeSpent=formatTime(totalTime);
+
+ let users=getUsers();
+ users[loggedUser].attempts.push({score,time:timeSpent});
+
+ if(score>users[loggedUser].highscore)
+   users[loggedUser].highscore=score;
+
+ saveUsers(users);
+
+ displayAttempts();
+ showWrongItems();
+}
+
+// ---------- SHOW ATTEMPTS ----------
+function showAttemptsOnly(){
+ quizArea.style.display="none";
+ resultArea.style.display="block";
+ timerBox.style.display="none";
+ score.textContent="-";
+ displayAttempts();
+ wrongList.innerHTML="";
+}
+
+function displayAttempts(){
+ let users=getUsers();
+ highScore.textContent=users[loggedUser].highscore;
+ attemptList.innerHTML="";
+ users[loggedUser].attempts.forEach((a,i)=>{
+   attemptList.innerHTML+=`Attempt ${i+1}: ${a.score}/${TOTAL_QUESTIONS} - ${a.time}<br>`;
+ });
+}
+
+function showWrongItems(){
+ wrongList.innerHTML="";
+ if(wrong.length===0) wrongList.innerHTML="Perfect Score 🎉";
+ else wrong.forEach(w=>{
+   wrongList.innerHTML+=`<div class="wrong-item">${w}</div>`;
+ });
+}
+
+function showSignup(){ 
+	authBox.style.display="none";
+	signupPage.style.display="block";
+}
+
+function showLogin(){ 
+	authBox.style.display="block";
+	signupPage.style.display="none";
+}
+
+//POP UP LOADING OPEN
+let progress = 0;
+const duration = 5000; // 10 seconds
+const intervalTime = 100; // update every 100ms
+const step = 100 / (duration / intervalTime);
+
+const progressBar = document.getElementById("progressBar");
+const percentText = document.getElementById("percentText");
+
+const progressInterval = setInterval(() => {
+    progress += step;
+    if (progress >= 100) {
+        progress = 100;
+        clearInterval(progressInterval);
+        document.getElementById("popup").style.display = "none";
+    }
+    progressBar.style.width = progress + "%";
+    percentText.textContent = Math.round(progress) + "%";
+}, intervalTime);
+//POP UP LOADING CLOSE
+
+
+
+</script>
+
+</body>
+</html>

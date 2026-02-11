@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Timer Game with Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#4a63f2;
+    font-family:Arial, sans-serif;
+}
+
+
+.story-container {
+    max-width: 100%;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align:justify;
+    text-indent: 40px;
+    line-height: 1.6;
+}
+
+
+h4 {
+	text-align:center;
+    text-indent: 0px;
+}
+
+.container{
+    max-width: 450px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+input{
+    width:90%;
+    padding:10px;
+    margin:8px 0;
+}
+
+button{
+    padding:10px 20px;
+    margin:5px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.primary{background:#4CAF50;color:white;}
+.secondary{background:#2196F3;color:white;}
+.danger{background:#f44336;color:white;}
+
+#time{
+    font-size:40px;
+    margin:15px 0;
+    font-weight:bold;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    padding:25px;
+    width:280px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.modal-content img{
+    width:120px;
+    margin:15px 0;
+}
+
+
+</style>
+</head>
+
+<body>
+
+
+<!-- LOGIN -->
+<div class="container" id="loginBox">
+<h2>Login</h2>
+<input type="text" id="loginUser" placeholder="Username">
+<input type="password" id="loginPass" placeholder="Password">
+<button class="primary" onclick="login()">Login</button>
+<p>No account? <a href="#" onclick="showSignup()">Sign up</a></p>
+</div>
+
+<!-- SIGNUP -->
+<div class="container" id="signupBox" style="display:none;">
+<h2>Sign Up</h2>
+<input type="text" id="signupUser" placeholder="Username">
+<input type="password" id="signupPass" placeholder="Password">
+<button class="secondary" onclick="signup()">Create Account</button>
+<p>Already have account? <a href="#" onclick="showLogin()">Login</a></p>
+</div>
+
+
+<!--GAME DIVISION OPEN -->
+<div id="gameAll" style="width:90%;padding:25px;margin:auto;display:none;position:absolute;top:10px;left:0px;">
+<center>
+<a href="story2.html" ><button style="background:lightgray;">Back to Challenges</button></a>
+</center>
+
+
+<!-- STORY -->
+<div class="story-container" id="gameStory" style="display:none;width:100%;">
+
+<h4>Exploring Non-Mendelian Genetics</h4>
+
+
+<p>[1]  
+Exploring Non-Mendelian Genetics 
+Non-Mendelian genetics encompasses inheritance patterns that deviate from 
+the classical rules established by Gregor Mendel. Mendel's groundbreaking 
+experiments with pea plants laid the foundation for understanding genetic inheritance 
+through specific dominant and recessive alleles. However, this framework is limited, 
+as many traits in living organisms exhibit more complex inheritance patterns. By 
+exploring non-Mendelian concepts, we can gain a deeper appreciation for the diversity 
+of genetic traits present in nature.
+</p>
+
+<p>[2] 
+One significant form of non-Mendelian inheritance is incomplete dominance. In 
+this pattern, the offspring display a phenotype that is a blend of the traits from both 
+parents. For instance, crossing a red flower (RR) with a white flower (WW) results in 
+a hybrid (RW) that is pink. This indicates that neither allele is completely dominant, 
+leading to an intermediate expression of traits. This phenomenon shows how traits 
+can combine in ways that do not fit into Mendelian categories.
+</p>
+
+<p>[3] 
+Another concept within non-Mendelian genetics is codominance. Codominance 
+occurs when both alleles in a heterozygous individual are fully expressed in the 
+phenotype. A well-known example can be observed in certain breeds of chickens, 
+where black feathers (B) and white feathers (W) are codominant. When a black 
+chicken and a white chicken are cross-fertilized, the offspring display both black and 
+white feathers. This demonstrates that both alleles contribute equally to the 
+phenotype, resulting in distinct and observable traits. 
+ </p>
+
+<p>[4] 
+Polygenic inheritance represents another non-Mendelian inheritance where 
+multiple genes influence a single trait. Traits such as human height and skin color fall 
+under this category, as they are controlled by several genes working together. This 
+results in a wide range of phenotypes rather than distinct categories. For example, 
+human height can vary significantly due to the cumulative effects of many different 
+genes, illustrating the complexity of genetic inheritance beyond simple dominant
+recessive relationships. 
+ </p>
+
+<p>[5] 
+Additionally, extranuclear inheritance involves genes located outside the 
+nucleus, primarily within mitochondria or chloroplasts. Mitochondrial DNA is inherited 
+from the mother and can lead to specific traits or diseases that do not adhere strictly 
+to Mendelian patterns. This type of inheritance provides insight into certain genetic 
+conditions passed down through maternal lines and emphasizes the importance of 
+understanding genetic transmission beyond nuclear DNA.
+</p>
+
+
+<p>[6] 
+Understanding non-Mendelian genetics is crucial across various fields, 
+including medicine, agriculture, and evolutionary biology. It offers valuable insights into 
+complex traits and how they are inherited from one generation to the next. For 
+example, recognizing that some genetic disorders may arise from multiple genes 
+rather than a single gene can refine our approaches to treatment and prevention 
+strategies. Overall, non-Mendelian genetics enriches our knowledge of heredity and helps explain the intricate tapestry of life’s diversity, revealing how complex interactions shape the traits we observe in organisms today. 
+</p>
+
+
+</div>
+<!-- STORY CLOSE-->
+
+<br>
+<center>
+<div class="container" id="instructionBox" style="display:none;background:yellow;text-align:justify;">
+<p><b>Instruction:</b> Read the story when you click the <i><b>start button</b></i> and click the <b><i>done button</b></i> when you are done reading.</p>
+</div>
+
+<br>
+
+<!-- GAME -->
+<div class="container" id="gameBox" style="display:none;">
+<h3 id="welcome"></h3>
+<div id="time">00:00</div>
+<button class="primary" onclick="startTimer()">Start</button>
+<button class="danger" onclick="stopTimer()">Done</button>
+<p>Your Records:</p>
+<div id="records"></div>
+</div>
+</center>
+<!-- GAME close-->
+
+
+</div>
+<!--GAME DIVISION CLOSE -->
+
+
+
+
+
+<!-- POPUP -->
+<div class="modal" id="popup">
+<div class="modal-content">
+<h2>Great Job!</h2>
+<img src="design.jpg">
+<p>Total Time:</p>
+<h3 id="finalTime"></h3>
+<button class="secondary" onclick="closePopup()">Close</button>
+</div>
+</div>
+
+<script>
+let seconds=0;
+let timer=null;
+let currentUser="";
+
+// Show forms
+function showSignup(){
+    loginBox.style.display="none";
+    signupBox.style.display="block";
+}
+function showLogin(){
+    signupBox.style.display="none";
+    loginBox.style.display="block";
+}
+
+// SIGNUP
+function signup(){
+	let user1=signupUser.value;
+    let u=user1+"-P101-2";
+    let p=signupPass.value;
+    if(u==""||p==""){alert("Fill all fields");return;}
+
+    let users=JSON.parse(localStorage.getItem("users"))||{};
+    if(users[u]){alert("Username exists");return;}
+
+    users[u]={password:p,times:[]};
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("Account created!");
+    showLogin();
+}
+
+// LOGIN
+function login(){
+	let user2=loginUser.value;
+    let u=user2+"-P101-2";
+    let p=loginPass.value;
+    let users=JSON.parse(localStorage.getItem("users"))||{};
+
+    if(!users[u]||users[u].password!==p){
+        alert("Invalid login");
+        return;
+    }
+
+    currentUser=u;
+    loginBox.style.display="none";
+    gameBox.style.display="block";
+    gameAll.style.display="block";
+    instructionBox.style.display="block";
+    welcome.innerHTML="Welcome, "+u;
+    loadRecords();
+}
+
+// TIMER
+function startTimer(){
+
+    gameStory.style.display="block";
+
+    if(timer)return;
+    seconds=0;
+    time.innerHTML="00:00";
+
+    timer=setInterval(()=>{
+        seconds++;
+        let m=Math.floor(seconds/60);
+        let s=seconds%60;
+        if(m<10)m="0"+m;
+        if(s<10)s="0"+s;
+        time.innerHTML=m+":"+s;
+    },1000);
+}
+
+function stopTimer(){
+    clearInterval(timer);
+    timer=null;
+
+    finalTime.innerHTML=time.innerHTML;
+    popup.style.display="flex";
+
+    let users=JSON.parse(localStorage.getItem("users"));
+    users[currentUser].times.push(time.innerHTML);
+    localStorage.setItem("users",JSON.stringify(users));
+
+    loadRecords();
+}
+
+// RECORDS
+function loadRecords(){
+    let users=JSON.parse(localStorage.getItem("users"));
+    let list=users[currentUser].times;
+    records.innerHTML=list.map(t=>"⏱ "+t).join("<br>");
+}
+
+function closePopup(){
+    popup.style.display="none";
+}
+</script>
+
+</body>
+</html>
