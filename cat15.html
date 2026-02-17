@@ -216,6 +216,15 @@ button {
 <!-- SIGN UP OPEN-->
 <div class="card hidden" id="signupPage" style="background:white;">
     <h2>📝 Sign Up</h2>
+
+<p style="text-align:justify;"><b>Username:</b> Username must be in ALL CAPITAL letters with no spacing.
+	Use number for grade level, followed by unique letter/s of section and put a dash "-" symbol and then
+	last name of the user (put number at the last part if multiple users having the same last name in the same section).
+	Example: Grade 7 Dahlia, Jose Santos then his username will be:<b>7D-SANTOS</b></p>
+
+<p style="text-align:justify;"><b>Password:</b> Password must be ANY NUMBER. Avoid using letters or any other symbols
+	to easily access the user's account. Example:<b>1234</b></p>	
+	
     <input id="signupUsername" placeholder="Username">
     <input id="signupPassword" type="password" placeholder="Password">
     <button class="secondary" style="box-shadow:0 8px 20px rgba(0,0,0,0.3);" onclick="handleSignup()">Create Account</button>
@@ -623,3 +632,4 @@ const progressInterval = setInterval(() => {
 
 </body>
 </html>
+
