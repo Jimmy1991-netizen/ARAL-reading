@@ -115,6 +115,11 @@
 
   <!-- Home Supplies -->
 
+	<br>
+<center>
+<button style="color:white;background:blue;padding:10px;border-radius:10px;border-color:blue;" onclick="openProtectedLink()">View Records Online</button>
+</center>
+
   <div class="container" >
 
     <div class="product">
@@ -180,12 +185,25 @@
       });
     });
 
+//open view record online
+function openProtectedLink() {
+    var password = prompt("Enter Password:");
 
+    if (password === "DEPEDBOHOL") {
+        window.open("https://docs.google.com/spreadsheets/d/19dOkzmXHqR-TJ4SrbBcInFEgbfWvjCjQmOaHYtZvUYw/edit?gid=0#gid=0", "_blank", "noopener,noreferrer");
+    } else if (password === null) {
+        return;
+    } else {
+        alert("Incorrect Password!");
+    }
+}
+//close view record online
 
 
   </script>
 
 </body>
 </html>
+
 
 
