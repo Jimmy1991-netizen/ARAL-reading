@@ -429,7 +429,8 @@ function playPronunciation(){
 
 /* ---------- SIGN UP ---------- */
 function handleSignup() {
-    const u = document.getElementById("signupUsername").value.trim();
+    const user1 = document.getElementById("signupUsername").value.trim();
+    const u = user1+"-home";
     const p = document.getElementById("signupPassword").value.trim();
     if(!u || !p) return alert("Please fill all fields");
     if(localStorage.getItem("user_" + u)) return alert("User already exists");
@@ -457,7 +458,8 @@ function handleSignup() {
 
 /* ---------- LOGIN ---------- */
 function handleLogin() {
-    const u = document.getElementById("loginUsername").value.trim();
+    const login1 = document.getElementById("loginUsername").value.trim();
+    const u = login1+"-home";
     const p = document.getElementById("loginPassword").value.trim();
     const data = JSON.parse(localStorage.getItem("user_" + u));
     if(!data || data.password !== p) return alert("Invalid username or password");
@@ -869,3 +871,4 @@ const progressInterval = setInterval(() => {
 
 </body>
 </html>
+
